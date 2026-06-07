@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { PlusCircle, Filter } from "lucide-react";
 import ArticleTable from "@/components/admin/ArticleTable";
-import { Article, Category } from "@/types/article";
+import { Article } from "@/types/article";
 import { CATEGORIES } from "@/lib/categories";
 
 export default function ArticlesListPage() {
@@ -23,6 +23,7 @@ export default function ArticlesListPage() {
     setLoading(false);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { fetchArticles(); }, [category, status]);
 
   return (

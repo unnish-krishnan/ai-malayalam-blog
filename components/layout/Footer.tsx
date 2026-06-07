@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Zap, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Zap, Globe, MessageCircle, Share2, Play } from "lucide-react";
 import { CATEGORIES } from "@/lib/categories";
 
 export default function Footer() {
@@ -20,10 +20,10 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-3 mt-5">
               {[
-                { icon: Facebook, href: "#" },
-                { icon: Twitter, href: "#" },
-                { icon: Instagram, href: "#" },
-                { icon: Youtube, href: "#" },
+                { icon: Globe, href: "#" },
+                { icon: MessageCircle, href: "#" },
+                { icon: Share2, href: "#" },
+                { icon: Play, href: "#" },
               ].map(({ icon: Icon, href }, i) => (
                 <a
                   key={i}
