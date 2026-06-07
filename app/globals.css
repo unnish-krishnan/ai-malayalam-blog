@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-noto-malayalam: 'Noto Sans Malayalam', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+@layer base {
+  body {
+    @apply text-text-primary bg-gray-light;
+    font-family: var(--font-noto-malayalam), sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-noto-malayalam), sans-serif;
+    @apply text-text-primary font-bold;
+  }
+}
+
+@layer utilities {
+  .font-malayalam {
+    font-family: var(--font-noto-malayalam), sans-serif;
+  }
+  .font-ui {
+    font-family: var(--font-inter), sans-serif;
+  }
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
