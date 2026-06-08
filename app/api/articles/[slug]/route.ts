@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { isAuthenticated } from "@/lib/auth";
 import { getArticleBySlug, updateArticle, deleteArticle } from "@/lib/articles";
 
 interface Params { params: { slug: string } }
@@ -12,8 +11,9 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PUT(req: NextRequest, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isAuthenticated(req))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const data = await req.json();
     const success = updateArticle(params.slug, data);
@@ -25,8 +25,9 @@ export async function PUT(req: NextRequest, { params }: Params) {
 }
 
 export async function DELETE(_req: NextRequest, { params }: Params) {
-  const session = await getServerSession(authOptions);
-  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isAuthenticated(req))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const success = deleteArticle(params.slug);
   if (!success) return NextResponse.json({ error: "Article not found" }, { status: 404 });
   return NextResponse.json({ success: true });

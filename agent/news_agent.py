@@ -25,12 +25,11 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 # ── Config from environment ────────────────────────────────────
-ANTHROPIC_API_KEY  = os.environ["ANTHROPIC_API_KEY"]
+ANTHROPIC_API_KEY   = os.environ["ANTHROPIC_API_KEY"]
 UNSPLASH_ACCESS_KEY = os.environ["UNSPLASH_ACCESS_KEY"]
-SITE_URL           = os.environ.get("SITE_URL", "https://ai-malayalam.com")
-ADMIN_EMAIL        = os.environ["ADMIN_EMAIL"]
-ADMIN_PASSWORD     = os.environ["ADMIN_PASSWORD"]
-ARTICLES_PER_DAY   = int(os.environ.get("ARTICLES_PER_DAY", "5"))
+SITE_URL            = os.environ.get("SITE_URL", "https://ai-malayalam.com")
+AGENT_SECRET        = os.environ["AGENT_SECRET"]
+ARTICLES_PER_DAY    = int(os.environ.get("ARTICLES_PER_DAY", "5"))
 
 client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -209,31 +208,15 @@ OUTPUT FORMAT (JSON only, no markdown):
         return None
 
 # ── Publish to ai-malayalam.com ────────────────────────────────
-def get_auth_session() -> requests.Session:
-    session = requests.Session()
-    # Sign in to get NextAuth cookie
-    login_url = f"{SITE_URL}/api/auth/callback/credentials"
-    resp = session.post(login_url, data={
-        "email": ADMIN_EMAIL,
-        "password": ADMIN_PASSWORD,
-        "csrfToken": get_csrf_token(session),
-        "callbackUrl": f"{SITE_URL}/admin",
-        "json": "true",
-    }, timeout=15)
-    log.info(f"Auth response: {resp.status_code}")
-    return session
-
-def get_csrf_token(session: requests.Session) -> str:
-    resp = session.get(f"{SITE_URL}/api/auth/csrf", timeout=10)
-    return resp.json().get("csrfToken", "")
-
 def publish_article(article_payload: dict) -> bool:
     try:
-        session = get_auth_session()
-        resp = session.post(
+        resp = requests.post(
             f"{SITE_URL}/api/articles",
             json=article_payload,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {AGENT_SECRET}",
+            },
             timeout=20,
         )
         if resp.status_code in (200, 201):

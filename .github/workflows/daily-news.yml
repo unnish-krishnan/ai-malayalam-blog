@@ -31,8 +31,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY:   ${{ secrets.ANTHROPIC_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
-          ADMIN_EMAIL:         ${{ secrets.ADMIN_EMAIL }}
-          ADMIN_PASSWORD:      ${{ secrets.ADMIN_PASSWORD }}
+          AGENT_SECRET:        ${{ secrets.AGENT_SECRET }}
           SITE_URL:            https://ai-malayalam.com
           ARTICLES_PER_DAY:    "5"
         run: python agent/news_agent.py
