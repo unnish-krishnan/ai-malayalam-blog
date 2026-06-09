@@ -183,7 +183,7 @@ OUTPUT FORMAT (JSON only, no markdown):
     try:
         resp = client.messages.create(
             model="claude-haiku-4-5",
-            max_tokens=2000,
+            max_tokens=4096,
             messages=[{"role": "user", "content": prompt}],
         )
         text = resp.content[0].text.strip()
