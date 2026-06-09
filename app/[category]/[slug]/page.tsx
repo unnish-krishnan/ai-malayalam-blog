@@ -9,7 +9,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 interface Props {
   params: { category: string; slug: string };

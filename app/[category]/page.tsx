@@ -7,7 +7,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import Pagination from "@/components/ui/Pagination";
 import type { Metadata } from "next";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 const ARTICLES_PER_PAGE = 10;
 

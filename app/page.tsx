@@ -5,7 +5,7 @@ import CategorySection from "@/components/home/CategorySection";
 import TrendingBar from "@/components/home/TrendingBar";
 import { CATEGORY_SLUGS } from "@/lib/categories";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default function HomePage() {
   const allPublished = getAllArticles({ status: "published" });
