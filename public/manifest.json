@@ -1,0 +1,16 @@
+{
+  "name": "AI മലയാളം",
+  "short_name": "AI മലയാളം",
+  "description": "AI ന്യൂസ്, ടെക് ന്യൂസ്, സ്മാർട്ട്ഫോൺ, How-To ഗൈഡുകൾ — മലയാളത്തിൽ",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#f3f4f6",
+  "theme_color": "#1a56db",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

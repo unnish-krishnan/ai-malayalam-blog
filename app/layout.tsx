@@ -25,6 +25,12 @@ export const metadata: Metadata = {
   },
   description: "AI ന്യൂസ്, ടെക് ന്യൂസ്, സ്മാർട്ട്ഫോൺ, How-To ഗൈഡുകൾ — മലയാളത്തിൽ",
   keywords: ["AI", "Technology", "Malayalam", "Tech News", "Smartphones"],
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
