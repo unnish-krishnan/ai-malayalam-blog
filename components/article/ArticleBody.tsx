@@ -1,4 +1,7 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
+"use client";
+
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function ArticleBody({ content }: { content: string }) {
   return (
@@ -15,7 +18,9 @@ export default function ArticleBody({ content }: { content: string }) {
       prose-code:bg-gray-light prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono
       prose-pre:bg-gray-dark prose-pre:rounded-xl prose-pre:p-5
       prose-img:rounded-xl prose-img:w-full">
-      <MDXRemote source={content} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        {content}
+      </ReactMarkdown>
     </div>
   );
 }
