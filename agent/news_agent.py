@@ -28,8 +28,9 @@ log = logging.getLogger(__name__)
 ANTHROPIC_API_KEY   = os.environ["ANTHROPIC_API_KEY"]
 UNSPLASH_ACCESS_KEY = os.environ["UNSPLASH_ACCESS_KEY"]
 SITE_URL            = os.environ.get("SITE_URL", "https://ai-malayalam.com")
-AGENT_SECRET        = os.environ["AGENT_SECRET"]
+AGENT_SECRET        = os.environ.get("AGENT_SECRET", "")
 ARTICLES_PER_DAY    = int(os.environ.get("ARTICLES_PER_DAY", "5"))
+PUBLISH_MODE        = os.environ.get("PUBLISH_MODE", "git")  # "git" or "api"
 
 client = Anthropic(api_key=ANTHROPIC_API_KEY)
 
@@ -207,8 +208,47 @@ OUTPUT FORMAT (JSON only, no markdown):
         log.error(f"Claude failed for article '{article['title']}': {e}")
         return None
 
-# ── Publish to ai-malayalam.com ────────────────────────────────
-def publish_article(article_payload: dict) -> bool:
+# ── Publish via Git (write .md file to content/) ──────────────
+def publish_article_git(article_payload: dict) -> bool:
+    try:
+        import re as _re
+        category  = article_payload["category"]
+        slug      = article_payload["slug"]
+        content   = article_payload.pop("content", "")
+
+        # Build frontmatter
+        tags_str  = json.dumps(article_payload.get("tags", []), ensure_ascii=False)
+        frontmatter = f"""---
+title: "{article_payload['title'].replace('"', "'")}"
+slug: "{slug}"
+category: "{category}"
+summary: "{article_payload['summary'].replace('"', "'")}"
+coverImage: "{article_payload['coverImage']}"
+author: "{article_payload['author']}"
+publishedAt: "{article_payload['publishedAt']}"
+status: "published"
+tags: {tags_str}
+featured: {str(article_payload.get('featured', False)).lower()}
+---
+
+{content}
+"""
+        # Write to content/{category}/{slug}.md
+        content_dir = os.path.join(os.path.dirname(__file__), "..", "content", category)
+        os.makedirs(content_dir, exist_ok=True)
+        file_path = os.path.join(content_dir, f"{slug}.md")
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(frontmatter)
+
+        log.info(f"✅ Saved: {file_path}")
+        return True
+    except Exception as e:
+        log.error(f"❌ Git publish failed: {e}")
+        return False
+
+# ── Publish via API ────────────────────────────────────────────
+def publish_article_api(article_payload: dict) -> bool:
     try:
         resp = requests.post(
             f"{SITE_URL}/api/articles",
@@ -228,6 +268,11 @@ def publish_article(article_payload: dict) -> bool:
     except Exception as e:
         log.error(f"❌ Publish exception: {e}")
         return False
+
+def publish_article(article_payload: dict) -> bool:
+    if PUBLISH_MODE == "git":
+        return publish_article_git(article_payload)
+    return publish_article_api(article_payload)
 
 # ── Main ───────────────────────────────────────────────────────
 def main():
