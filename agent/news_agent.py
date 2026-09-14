@@ -163,20 +163,32 @@ Category: {article['category']}
 YOUR TASK:
 Write a complete Malayalam blog article based on this news. Output ONLY valid JSON, nothing else.
 
-RULES:
-1. Title: Catchy Malayalam title (not a direct translation, make it engaging)
-2. Summary: 5-8 sentence Malayalam summary — this is the MAIN content shown on homepage cards
-3. Body: Full article in Malayalam with ## headings, bullet points, and good detail (300-500 words)
-4. All user-facing content MUST be in Malayalam (Unicode)
-5. Tags: 3-5 relevant English/Malayalam tags
-6. Slug: Short English slug (URL friendly, max 60 chars)
+LANGUAGE STYLE — CRITICAL RULES:
+- Malayalam is the PRIMARY language. Every sentence must be structured in Malayalam.
+- ONLY use English for: product names, brand names, tech terms, UI paths, and proper nouns.
+- CORRECT: "ഇനി Instagram Story-ൽ post ചെയ്‌ത് WhatsApp Status-ൽ automatically appear ആകും!"
+  (Malayalam verbs/connectors, English only for product names)
+- WRONG: "One story, two platforms reach ആകുന്നു"
+  (English sentence with Malayalam word appended — NEVER do this)
+- WRONG: Full English bullet points with only a Malayalam word at the end.
+- Write verbs, prepositions, connectors, and sentence flow in Malayalam.
+- Conversational, natural Malayalam — not overly formal or literary.
+- Numbers, prices, dates: keep in standard format (₹1,500, September 2026, etc.)
+
+CONTENT RULES:
+1. Title: Mix of Malayalam + English product names. Make it engaging, not a literal translation.
+2. Summary: 4-6 Malayalam sentences. Must be fully readable in Malayalam.
+3. Body: 350-500 words. Malayalam sentence structure throughout. ## headings, bullet points.
+   Include Kerala/India context where relevant. Practical tips for readers.
+4. Tags: 3-5 tags (English product names + 1-2 Malayalam topic tags OK)
+5. Slug: Short English slug (URL friendly, max 60 chars)
 
 OUTPUT FORMAT (JSON only, no markdown):
 {{
-  "title": "Malayalam title here",
+  "title": "Malayalam title with English product names where needed",
   "slug": "english-slug-here",
-  "summary": "5-8 sentence Malayalam summary here",
-  "body": "Full Malayalam article body with ## headings and bullet points",
+  "summary": "4-6 sentence Malayalam summary here",
+  "body": "Full article body — Malayalam sentence structure, English only for tech terms",
   "tags": ["tag1", "tag2", "tag3"],
   "featured": false
 }}"""
